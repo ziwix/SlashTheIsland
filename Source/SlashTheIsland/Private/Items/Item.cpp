@@ -2,6 +2,7 @@
 
 
 #include "Items/Item.h"
+#include "SlashTheIsland/DebugMacros.h"
 
 // Sets default values
 AItem::AItem()
@@ -15,8 +16,11 @@ AItem::AItem()
 void AItem::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	UE_LOG(LogTemp, Warning, TEXT("Item BeginPlay"));
+
+	FVector Location = GetActorLocation();
+	FVector EndLocation = Location + GetActorForwardVector() * 100.f;
+
+	DRAW_ACTOR_DEBUG(Location, EndLocation)
 }
 
 // Called every frame
