@@ -1,5 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// © 2025 Highland Studio. All rights reserved.
+//Slash and all associated assets — including characters, story, code, and visuals — are the intellectual property of Highland Studio.
+//Unauthorized use, reproduction, or distribution of this content is strictly prohibited.
 
 #include "Items/Item.h"
 #include "SlashTheIsland/DebugMacros.h"
@@ -19,7 +20,6 @@ AItem::AItem()
 void AItem::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
 
 // Called to calculate the transformed sine value
@@ -40,6 +40,22 @@ void AItem::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	// Calculate the running time
 	RunningTime += DeltaTime;
+
+	// Show DeltaTime
+	GEngine->AddOnScreenDebugMessage(1, 60.f, FColor::Cyan, FString::Printf(TEXT("DeltaTime : %f"), DeltaTime));
+
+	// Add offset to the item mesh
+	if (bCircleMovement)
+		AddActorWorldOffset(FVector(TransformedSin(), TransformedCos(), MovementRateZ * DeltaTime));
+	else
+		AddActorWorldOffset(FVector(MovementRateX * DeltaTime, MovementRateY * DeltaTime, MovementRateZ * DeltaTime));
+
+	// Draw debug sphere with a forward vector
+	if (bEnableDebugSphere)
+	{
+		DRAW_DEBUG_SPHERE_SingleFrame(GetActorLocation(), DebugSize)
+		DRAW_DEBUG_VECTOR_SingleFrame(GetActorLocation(), GetActorLocation() + GetActorForwardVector() * (DebugSize * 1.5f), DebugSize * 0.25f)
+	}
 
 	// Add rotation to the item mesh
 	AddActorWorldRotation(FRotator(MovementRatePitch * DeltaTime, MovementRateYaw * DeltaTime, MovementRateRoll * DeltaTime));

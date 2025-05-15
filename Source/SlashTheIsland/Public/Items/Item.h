@@ -1,4 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// © 2025 Highland Studio. All rights reserved.
+//Slash and all associated assets — including characters, story, code, and visuals — are the intellectual property of Highland Studio.
+//Unauthorized use, reproduction, or distribution of this content is strictly prohibited.
 
 #pragma once
 
@@ -29,6 +31,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sine Parameters")
 	float TimeConstant = 5.f;
 
+	//Declares if the movement of the item is set to be circular
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements Parameters")
+	bool bCircleMovement = false;
+
 	//Declares the phase shift for the sine wave
 	UFUNCTION(BlueprintPure)
 	float TransformedSin();
@@ -36,6 +42,18 @@ protected:
 	//Declares the amplitude for the cosine wave
 	UFUNCTION(BlueprintPure)
 	float TransformedCos();
+
+	//Declares the movement rate for the X axis of the item
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements Parameters", meta = (EditCondition = "!bCircleMovement"))
+	float MovementRateX = 10.f;
+
+	//Declares the movement rate for the Y axis of the item
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements Parameters", meta = (EditCondition = "!bCircleMovement"))
+	float MovementRateY = 10.f;
+
+	//Declares the movement rate for the Z axis of the item
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements Parameters")
+	float MovementRateZ = 10.f;
 
 	//Declares the movement rate for the pitch of the item
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements Parameters")
@@ -48,6 +66,13 @@ protected:
 	//Declares the movement rate for the roll of the item
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements Parameters")
 	float MovementRateRoll = 10.f;
+
+	//Declares if it should draw a Debug Sphere
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Debug")
+	bool bEnableDebugSphere = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Debug", meta = (EditCondition = "bEnableDebugSphere", EditConditionHides))
+	float DebugSize = 25.f;
 
 	//Declares temlate function to calculate the average of two values
 	template<typename T>
